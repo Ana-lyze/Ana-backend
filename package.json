@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +13,7 @@
     "async": "^2.3.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "morgan": "^1.8.1",
     "nlcst-to-string": "^2.0.0",
     "retext": "^5.0.0",
     "retext-keywords": "^4.0.0",

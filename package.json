@@ -12,6 +12,7 @@
     "async": "^2.3.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "snoowrap": "^1.13.0",
     "twitter": "^1.7.0",
     "watson-developer-cloud": "^2.29.0"
   }

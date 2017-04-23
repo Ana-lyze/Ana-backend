@@ -1,5 +1,5 @@
 {
-  "name": "ana",
+  "name": "ana-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +12,9 @@
     "async": "^2.3.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "nlcst-to-string": "^2.0.0",
+    "retext": "^5.0.0",
+    "retext-keywords": "^4.0.0",
     "snoowrap": "^1.13.0",
     "twitter": "^1.7.0",
     "watson-developer-cloud": "^2.29.0"

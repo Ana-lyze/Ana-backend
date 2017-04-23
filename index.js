@@ -5,8 +5,12 @@ const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 const app = express();
 const bodyParser = require('body-parser');
 const snoowrap = require('snoowrap');
+const retext = require('retext');
+const nlcstToString = require('nlcst-to-string');
+const keywords = require('retext-keywords');
 
 const secret = require('./secret');
+const dummy = require('./dummy');
 
 const twitter = new Twitter(secret.twitter);
 const reddit = new snoowrap(secret.reddit);
@@ -36,6 +40,7 @@ const twitterSearch = (q, result_type, cb) => {
 };
 
 app.get('/', (req, res, next) => {
+  //return res.json(dummy);
   async.waterfall([
     (cb) => {
       const { q } = req.query;
@@ -44,7 +49,7 @@ app.get('/', (req, res, next) => {
           twitterSearch(q, 'popular', cb);
         },
         reddit: (cb) => {
-          reddit.search({ query: q })
+          reddit.search({ query: q, limit: 50, sort: 'new' })
             .then(cb.bind(this, null))
             .catch(cb);
         },
@@ -56,7 +61,25 @@ app.get('/', (req, res, next) => {
   ], next);
 });
 
-app.post('/', (req, res, next) => {
+app.post('/keyword', (req, res, next) => {
+  async.waterfall([
+    (cb) => {
+      const { text } = req.body;
+      retext().use(keywords).process(text, cb);
+    },
+    (file, cb) => {
+      const keywords = [];
+      file.data.keywords.forEach((keyword) => {
+        const str = nlcstToString(keyword.matches[0].node);
+        if (['https', 'http'].includes(str)) return;
+        keywords.push(str);
+      });
+      res.json({ keywords });
+    }
+  ], next);
+});
+
+app.post('/tone', (req, res, next) => {
   async.waterfall([
     (cb) => {
       const { text } = req.body;
